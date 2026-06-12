@@ -896,7 +896,44 @@
         }
       });
     });
+    // ── CONNECT FRONTEND TO BACKEND API ──
+// LEARNING NOTE: fetch() is built into the browser.
+// It sends HTTP requests to your API and gets JSON back.
+// This is how your Project 1 talks to your Project 2!
 
+async function loadTvsFromAPI() {
+  try {
+    // Step 1: Send GET request to your API
+    const response = await fetch('http://localhost:3000/tvs');
+
+    // Step 2: Convert response to JavaScript object
+    const result = await response.json();
+
+    // Step 3: Log it so you can see it in DevTools
+    console.log('✅ Data from API:', result);
+
+    // Step 4: Show a success message on the page
+    const banner = document.createElement('div');
+    banner.style.cssText = `
+      position: fixed; bottom: 20px; right: 20px;
+      background: #A5856E; color: white;
+      padding: 12px 20px; border-radius: 8px;
+      font-size: 14px; z-index: 999;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    `;
+    banner.textContent = '✅ Connected to API! ' + result.count + ' TVs loaded.';
+    document.body.appendChild(banner);
+
+    // Remove banner after 4 seconds
+    setTimeout(() => banner.remove(), 4000);
+
+  } catch (error) {
+    console.error('❌ API not reachable:', error);
+  }
+}
+
+// Run when page loads
+  loadTvsFromAPI();
   </script>
 
 </body>
